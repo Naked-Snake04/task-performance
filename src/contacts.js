@@ -1,8 +1,10 @@
 const contacts = document.getElementsByClassName("contacts")[0];
 const stickyHeader = document.getElementsByClassName("stickyHeader")[0];
+let items = [];
 
 function addContacts() {
   const fragment = document.createDocumentFragment();
+  items = Array.from(contacts.getElementsByClassName("contact"));
   for (let i = 0; i < 50000; i++) {
     const child = document.createElement("div");
     child.textContent = i;
@@ -13,13 +15,9 @@ function addContacts() {
 }
 
 contacts.addEventListener("scroll", (e) => {
-  const items = Array.from(contacts.getElementsByClassName("contact"));
-  const itemOffsets = items.map((item) => item.offsetTop);
-  const topItemIndex = itemOffsets.findIndex(
-    (offset) => contacts.scrollTop - offset <= -18
-  );
-  if (topItemIndex !== -1) {
-    stickyHeader.textContent = items[topItemIndex].textContent;
+  let calc = Math.floor(contacts.scrollTop / 18);
+  if (calc !== -1) {
+    stickyHeader.textContent = items[calc].textContent;
   }
 });
 
